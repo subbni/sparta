@@ -36,6 +36,10 @@ public class Calculator {
         return this.result.get(this.result.size()-1);
     }
 
+    public int getSizeOfResult() {
+        return this.result.size();
+    }
+
     public void setResult(double result) {
         this.result.add(result);
     }
