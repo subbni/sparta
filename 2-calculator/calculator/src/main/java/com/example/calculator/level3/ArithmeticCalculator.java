@@ -7,8 +7,7 @@ public class ArithmeticCalculator<T extends Number> {
     private LinkedList<Double> result = new LinkedList<>();
 
     public Double calculate(T firstNum, T secondNum, String operator) {
-        OperatorType operatorType = OperatorType.fromSymbol(operator);
-        double result = operatorType.operate(firstNum,secondNum);
+        double result = OperatorType.fromSymbol(operator).operate(firstNum,secondNum);
         setResult(result);
         return result;
     }
