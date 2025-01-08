@@ -34,19 +34,22 @@ public class ArithmeticCalculator<T extends Number> {
     }
 
     public void printResultGreaterThan(Number value) {
+        System.out.println("[ "+value+"보다 큰 값"+" ]");
         System.out.println(joinToString(NumberListFilter.findAllGreaterThan(result, value)));
     }
 
     public void printResultLessThan(Number value) {
+        System.out.println("[ "+value+"보다 작은 값"+" ]");
         System.out.println(joinToString(NumberListFilter.findAllLessThan(result, value)));
     }
 
     public void printResultEqualTo(Number value) {
+        System.out.println("[ "+value+"와 같은 값"+" ]");
         System.out.println(joinToString(NumberListFilter.findAllEqualTo(result, value)));
     }
 
     private String joinToString(List<Double> list) {
-        return list.stream()
+        return list.isEmpty() ? "없습니다." :list.stream()
                 .map(String::valueOf)
                 .collect(Collectors.joining(", "));
     }
