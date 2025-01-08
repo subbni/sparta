@@ -1,14 +1,14 @@
 package com.example.calculator.level3;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class ArithmeticCalculator<T extends Number> {
-    private LinkedList<Double> result = new LinkedList<>();
+    private final LinkedList<Double> result = new LinkedList<>();
 
     public Double calculate(T firstNum, T secondNum, String operator) {
-        OperatorType operatorType = OperatorType.fromSymbol(operator);
-        double result = operatorType.operate(firstNum,secondNum);
+        double result = OperatorType.fromSymbol(operator).operate(firstNum,secondNum);
         setResult(result);
         return result;
     }
@@ -21,6 +21,7 @@ public class ArithmeticCalculator<T extends Number> {
         return this.result.size();
     }
 
+    // private 처리
     public void setResult(Double result) {
         this.result.add(result);
     }
@@ -33,10 +34,23 @@ public class ArithmeticCalculator<T extends Number> {
     }
 
     public void printResultGreaterThan(Number value) {
-        String str = result.stream()
-                .filter(v -> v > value.doubleValue())
+        System.out.println("[ "+value+"보다 큰 값"+" ]");
+        System.out.println(joinToString(NumberListFilter.findAllGreaterThan(result, value)));
+    }
+
+    public void printResultLessThan(Number value) {
+        System.out.println("[ "+value+"보다 작은 값"+" ]");
+        System.out.println(joinToString(NumberListFilter.findAllLessThan(result, value)));
+    }
+
+    public void printResultEqualTo(Number value) {
+        System.out.println("[ "+value+"와 같은 값"+" ]");
+        System.out.println(joinToString(NumberListFilter.findAllEqualTo(result, value)));
+    }
+
+    private String joinToString(List<Double> list) {
+        return list.isEmpty() ? "없습니다." :list.stream()
                 .map(String::valueOf)
                 .collect(Collectors.joining(", "));
-        System.out.println(str);
     }
 }
