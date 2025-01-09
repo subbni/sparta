@@ -1,9 +1,10 @@
 package com.example.calculator.level2;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class Calculator {
-    private LinkedList<Double> result = new LinkedList<>();
+    private List<Double> result = new LinkedList<>();
     public double calculate(int firstNum, int secondNum, String operator) {
         // 양의 정수(0포함) 2개와 연산 기호를 매개변수로 받아 사칙연산 기능을 수행한 후 결과 값을 반환
         if (firstNum < 0 || secondNum < 0) {
@@ -47,7 +48,7 @@ public class Calculator {
     public void removeResult() {
         // 가장 먼저 저장된 데이터를 삭제
         if(!result.isEmpty()) {
-            this.result.removeFirst();
+            this.result.remove(0);
         }
     }
 }

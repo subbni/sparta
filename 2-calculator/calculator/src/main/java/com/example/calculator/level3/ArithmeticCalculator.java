@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ArithmeticCalculator<T extends Number> {
-    private final LinkedList<Double> result = new LinkedList<>();
+    private final List<Double> result = new LinkedList<>();
 
     public Double calculate(T firstNum, T secondNum, String operator) {
         double result = OperatorType.fromSymbol(operator).operate(firstNum,secondNum);
@@ -31,7 +31,7 @@ public class ArithmeticCalculator<T extends Number> {
     public void removeResult() {
         // 가장 먼저 저장된 데이터를 삭제
         if(!result.isEmpty()) {
-            this.result.removeFirst();
+            this.result.remove(0);
         }
     }
 
