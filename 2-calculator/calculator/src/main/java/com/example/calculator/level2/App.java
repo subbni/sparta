@@ -16,12 +16,12 @@ public class App {
                 System.out.print("연산자를 입력해주세요 (+,-,*,/ 중 하나) : ");
                 String operator = sc.nextLine();
                 // 연산 & 연산 결과 저장
-                calculator.setResult(calculator.calculate(firstNum, secondNum, operator));
+                calculator.addResult(calculator.calculate(firstNum, secondNum, operator));
                 // 연산 결과 출력
-                System.out.println("결과 : " + calculator.getResult());
-                // Caculator의 removeResult() 메서드 활용 : 저장된 연산 결과를 항상 10개 이하로 유지
-                if(calculator.getSizeOfResult() >= 10) {
-                    calculator.removeResult();
+                System.out.println("결과 : " + calculator.getLastResult());
+                // Caculator의 removeOldestResult() 메서드 활용 : 저장된 연산 결과를 항상 10개 이하로 유지
+                if(calculator.getSizeOfResults() >= 10) {
+                    calculator.removeOldestResult();
                 }
             } catch (Exception e) {
                 System.out.println("연산에 실패했습니다. " + e.getMessage());

@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Calculator {
-    private List<Double> result = new LinkedList<>();
+    private List<Double> results = new LinkedList<>();
     public double calculate(int firstNum, int secondNum, String operator) {
         // 양의 정수(0포함) 2개와 연산 기호를 매개변수로 받아 사칙연산 기능을 수행한 후 결과 값을 반환
         if (firstNum < 0 || secondNum < 0) {
@@ -33,22 +33,22 @@ public class Calculator {
         }
     }
 
-    public double getResult() {
-        return this.result.get(this.result.size()-1);
+    public double getLastResult() {
+        return this.results.get(this.results.size()-1);
     }
 
-    public int getSizeOfResult() {
-        return this.result.size();
+    public int getSizeOfResults() {
+        return this.results.size();
     }
 
-    public void setResult(double result) {
-        this.result.add(result);
+    public void addResult(double result) {
+        this.results.add(result);
     }
 
-    public void removeResult() {
+    public void removeOldestResult() {
         // 가장 먼저 저장된 데이터를 삭제
-        if(!result.isEmpty()) {
-            this.result.remove(0);
+        if(!results.isEmpty()) {
+            this.results.remove(0);
         }
     }
 }

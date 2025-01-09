@@ -30,7 +30,7 @@ public class App {
                 );
 
                 // 3. 연산 결과 출력
-                System.out.println("결과 : " + calculator.getResult());
+                System.out.println("결과 : " + calculator.getLastResult());
 
                 // 4. 저장 결과 출력
                 System.out.println("-------------------------------------");
@@ -38,9 +38,9 @@ public class App {
                 System.out.print("기준 값 입력 : ");
                 String searchInput = sc.nextLine();
                 Number inputNum = NumberParser.parse(searchInput);
-                calculator.printResultGreaterThan(inputNum);
-                calculator.printResultEqualTo(inputNum);
-                calculator.printResultLessThan(inputNum);
+                calculator.printResultsGreaterThan(inputNum);
+                calculator.printResultsEqualTo(inputNum);
+                calculator.printResultsLessThan(inputNum);
             } catch (NumberFormatException e) {
                 System.out.println("실패했습니다. 숫자를 올바른 형식으로 입력해주세요.");
             } catch (Exception e) {
