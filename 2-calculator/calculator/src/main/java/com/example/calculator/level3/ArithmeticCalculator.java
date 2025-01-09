@@ -1,5 +1,8 @@
 package com.example.calculator.level3;
 
+import com.example.calculator.level3.constant.OperatorType;
+import com.example.calculator.level3.util.NumberListFilter;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +24,6 @@ public class ArithmeticCalculator<T extends Number> {
         return this.result.size();
     }
 
-    // private 처리
     private void setResult(Double result) {
         this.result.add(result);
     }

@@ -1,4 +1,4 @@
-package com.example.calculator.level3;
+package com.example.calculator.level3.util;
 
 import java.util.List;
 import java.util.stream.Collectors;
