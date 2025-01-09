@@ -7,7 +7,7 @@
 ### 설명
 - Java의 문법을 실습하고 객체 지향 개념을 활용합니다.
 - 콘솔창으로 사용자의 입력을 받고 사칙연산`(더하기, 빼기, 곱하기,나누기)`을 수행하는 계산기를 구현합니다.
-- 프로젝트는 난이도에 따라 level1, level2, level3 디렉토리로 구분되어 있습니다.
+- 각 레벨의 요구사항에 따라 level1, level2, level3 디렉토리로 구분되어 구현되어 있습니다.
 ### 사용 기술
 ![](https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=OpenJDK&logoColor=white")
 ![](https://img.shields.io/badge/intellijidea-000000?style=for-the-badge&logo=intellijidea&logoColor=white")
@@ -52,19 +52,19 @@ calculator
 ## `Lv.2` 계산기 클래스를 사용한 계산기 구현
 #### [요구사항](https://github.com/subbni/sparta/issues/2)
 #### 1. [`Calculator`](https://github.com/subbni/sparta/blob/main/2-calculator/calculator/src/main/java/com/example/calculator/level2/Calculator.java) class가 추가되었습니다. 
-- `LinkedList<Double> result` 필드를 갖습니다.
+- `LinkedList<Double> results` 필드를 갖습니다.
   - 연산 결과를 저장합니다.
   - 맨 앞에 저장된 데이터를 삭제하는 로직이 요구되어 ArrayList가 아닌 LinkedList를 사용하였습니다.
 - `calculate(firstNum,secondNum,operator)`로 사칙연산을 수행한 후 결과값을 반환합니다.
    - 연산 오류가 발생할 경우 Exception이 발생합니다.
-- `getResult()` 로 가장 최근에 저장된 결과를 가져옵니다.
-- `setResult(result)`로 결과를 추가 저장합니다.
-- `removeResult()`로 맨 앞에 저장된(가장 처음에 저장된) 데이터를 삭제합니다.
-- `getSizeOfResult()`로 현재 저장된 결과의 수를 가져옵니다.
+- `getLastResult()` 로 가장 최근에 저장된 결과를 가져옵니다.
+- `addResult(result)`로 결과를 추가 저장합니다.
+- `removeOldestResult()`로 맨 앞에 저장된(가장 처음에 저장된) 데이터를 삭제합니다.
+- `getSizeOfResults()`로 현재 저장된 결과의 수를 가져옵니다.
 
 #### 2. [`App`](https://github.com/subbni/sparta/blob/main/2-calculator/calculator/src/main/java/com/example/calculator/level2/App.java) class가 수정되었습니다.
 - while 반복문을 들어가기 앞서 `Calculator` 인스턴스(calculator)를 생성합니다.
-- while 반복문에서 연산 시 calculator 메서드 `calculate`를 사용하고, 즉시 calculator 메서드 `setResult`를 이용하여 결과를 저장합니다.
+- while 반복문에서 연산 시 calculator 메서드 `calculate`를 사용하고, 즉시 calculator 메서드 `addResult`를 이용하여 결과를 저장합니다.
 - 연산이 성공적으로 완료된다면 calculator에 저장된 결과의 수를 확인하여, 10 이상일 경우 맨 앞에 저장된 결과를 삭제 처리합니다.
    -  "App 클래스의 main 메서드에 삭제 메서드가 활용될 수 있도록 수정"하라는 요구사항에 맞춰 임의로 추가한 로직입니다.
 
@@ -89,16 +89,16 @@ calculator
 - `<T extends Number>` 타입변수를 갖는 제네릭 클래스입니다.
 - `calculate` 메서드가 변경되었습니다.
   - `(T firstNum, T secondNum, String operator)`로 Integer와 Double 타입을 모두 매개변수로 받을 수 있습니다.
-  - `firstNum,secondNumber`의 조합으로 `Integer,Integer`, `Integer,Double`, `Double,Double`,`Double,Integer` 모두 가능합니다.
+  - `firstNum,secondNum`의 조합으로 `Integer,Integer`, `Integer,Double`, `Double,Double`,`Double,Integer` 모두 가능합니다.
   - `OperatorType.calculate` 메서드를 이용하여 연산을 수행합니다.
-  - 연산 수행 결과를 멤버변수 `result`에 저장합니다.
+  - 연산 수행 결과를 멤버변수 `results`에 저장합니다.
 - 매개변수로 받은 값을 기준으로 저장된 연산 결과를 필터링하여 출력하는 메서드가 추가되었습니다.
-  - `printResultGreaterThan` , `printResultLessThan`, `printResultEqualTo`
+  - `printResultsGreaterThan` , `printResultsLessThan`, `printResultsEqualTo`
   - `NumberListFilter`의 static 메서드를 사용하여 필터링한 리스트를 받아옵니다.
 - `joinToString` 메서드가 추가되었습니다.
   - 필터링 결과를 하나의 문자열로 묶어 반환합니다.
 #### 5. [`App`](https://github.com/subbni/sparta/blob/main/2-calculator/calculator/src/main/java/com/example/calculator/level3/App.java) class가 변경되었습니다.
-- while 반복문을 들어가기 앞서 `ArithmeticCalculator` 인스턴스(calculator)를 생성합니다.
+- while 반복문을 들어가기 앞서 `ArithmeticCalculator<Number>` 인스턴스(calculator)를 생성합니다.
 - 사용자로부터 받아온 입력 값을 `NumberParser.parse`메서드를 사용하여 Integer/Double로 변환한 뒤, `calculate` 메서드의 매개변수로 넣어 연산합니다.
 - 기준 값을 입력 받고 `ArithmeticCalculator`의 각 필터링 출력 메서드로 조회합니다.
 
