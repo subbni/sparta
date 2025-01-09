@@ -22,7 +22,7 @@ public class ArithmeticCalculator<T extends Number> {
     }
 
     // private 처리
-    public void setResult(Double result) {
+    private void setResult(Double result) {
         this.result.add(result);
     }
 
