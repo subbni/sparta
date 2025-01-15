@@ -25,4 +25,11 @@ public class Menu {
     public List<MenuItem> getMenuItems() {
         return menuItems;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n").append("[ ").append(category.toUpperCase()).append(" MENU ]");
+        return sb.toString();
+    }
 }
