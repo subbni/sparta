@@ -1,5 +1,6 @@
 package com.example.kiosk.level6;
 import com.example.kiosk.level6.service.CartService;
+import com.example.kiosk.level6.service.OrderService;
 
 import java.util.List;
 import java.util.Scanner;
@@ -7,10 +8,13 @@ import java.util.Scanner;
 // 프로그램 순서 및 흐름 제어를 담당
 public class Kiosk {
     private final List<Menu> menus;
-    private final CartService cartService = new CartService();
+    private final CartService cartService;
+    private final OrderService orderService;
 
     public Kiosk(List<Menu> menus) {
         this.menus = menus;
+        cartService = new CartService();
+        orderService = new OrderService(cartService);
     }
 
     public void start() {
@@ -39,7 +43,7 @@ public class Kiosk {
                     processSubMenu(sc,selectedMenu);
                 } else if(menuIdx==menus.size()+1){
                     // 4. 장바구니 로직 - 주문 처리
-                    processOrder();
+                    orderService.processOrder();
                 } else if(menuIdx== menus.size()+2){
                     // 5. 장바구니 로직 - 취소 처리
                     System.out.println("진행 중인 주문이 취소되었습니다.");
@@ -70,34 +74,13 @@ public class Kiosk {
                 MenuItem selectedMenuItem = selectedMenu.getMenuItems().get(inputIdx-1);
                 System.out.printf("선택한 메뉴 : %s\n\n",selectedMenuItem);
 
-                // 3. 장바구니 로직 처리
+                // 3. 장바구니 추가 로직
                 processAddCart(selectedMenuItem);
                 return;
             } catch (NumberFormatException e) { // 숫자 형식이 아닌 경우
                 System.out.println("처리에 실패했습니다. 정해진 숫자 형식으로 입력해주세요.");
             } catch (Exception e) {
                 System.out.println("처리에 실패했습니다. " + e.getMessage());
-            }
-        }
-    }
-
-    private void processOrder() {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("아래와 같이 주문 하시겠습니까?\n\n");
-        System.out.print("[ Orders ]\n");
-        cartService.printOrders();
-        System.out.print("\n[ Total ]\n");
-        System.out.printf("W %.1f\n\n",cartService.getTotalPrice());
-        System.out.println("1. 주문      2. 메뉴판");
-
-        while (true) {
-            String inputStr = sc.nextLine();
-            if("1".equals(inputStr)) { // 주문 처리
-                System.out.printf("주문이 완료되었습니다. 금액은 W %.1f 입니다.\n",cartService.getTotalPrice());
-                cartService.resetCart();
-                return;
-            } else if ("2".equals(inputStr)) { // 메뉴판으로 돌아가기
-                return;
             }
         }
     }
@@ -121,7 +104,6 @@ public class Kiosk {
         }
     }
 
-
     private void printMainMenu() {
         System.out.println("\n[ MAIN MENU ]");
         for(int i=0; i<menus.size(); i++) {
@@ -138,7 +120,7 @@ public class Kiosk {
     }
 
     private void printMenuItems(Menu menu) {
-        System.out.printf("\n[ %s MENU ]\n",menu.getCategory().toUpperCase());
+        System.out.println(menu);
         menu.printMenuItems();
         System.out.println("0. 뒤로가기");
     }

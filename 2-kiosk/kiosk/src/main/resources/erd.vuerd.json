@@ -1,0 +1,187 @@
+{
+  "$schema": "https://raw.githubusercontent.com/dineug/erd-editor/main/json-schema/schema.json",
+  "version": "3.0.0",
+  "settings": {
+    "width": 2000,
+    "height": 2000,
+    "scrollTop": 0,
+    "scrollLeft": 0,
+    "zoomLevel": 1,
+    "show": 431,
+    "database": 4,
+    "databaseName": "",
+    "canvasType": "ERD",
+    "language": 1,
+    "tableNameCase": 4,
+    "columnNameCase": 2,
+    "bracketType": 1,
+    "relationshipDataTypeSync": true,
+    "relationshipOptimization": false,
+    "columnOrder": [
+      1,
+      2,
+      4,
+      8,
+      16,
+      32,
+      64
+    ],
+    "maxWidthComment": -1,
+    "ignoreSaveSettings": 0
+  },
+  "doc": {
+    "tableIds": [
+      "1YLCzm7kAa-BEMQHDIP83",
+      "EzNQuqxqfsMLgwAXq4J6Z",
+      "hEmxCwkqcz3JnMb2zxWIa",
+      "3mHiqpoUYAPk2UV136huw"
+    ],
+    "relationshipIds": [],
+    "indexIds": [],
+    "memoIds": []
+  },
+  "collections": {
+    "tableEntities": {
+      "1YLCzm7kAa-BEMQHDIP83": {
+        "id": "1YLCzm7kAa-BEMQHDIP83",
+        "name": "Kiosk",
+        "comment": "",
+        "columnIds": [],
+        "seqColumnIds": [],
+        "ui": {
+          "x": 200,
+          "y": 107,
+          "zIndex": 2,
+          "widthName": 60,
+          "widthComment": 60,
+          "color": ""
+        },
+        "meta": {
+          "updateAt": 1736921512133,
+          "createAt": 1736921500785
+        }
+      },
+      "3CQbEMLfGzmrVGQDcndcY": {
+        "id": "3CQbEMLfGzmrVGQDcndcY",
+        "name": "",
+        "comment": "",
+        "columnIds": [],
+        "seqColumnIds": [],
+        "ui": {
+          "x": -70,
+          "y": 285,
+          "zIndex": 6,
+          "widthName": 60,
+          "widthComment": 60,
+          "color": ""
+        },
+        "meta": {
+          "updateAt": 1736921519127,
+          "createAt": 1736921516294
+        }
+      },
+      "EzNQuqxqfsMLgwAXq4J6Z": {
+        "id": "EzNQuqxqfsMLgwAXq4J6Z",
+        "name": "Menu",
+        "comment": "상위 카테고리",
+        "columnIds": [],
+        "seqColumnIds": [],
+        "ui": {
+          "x": 71,
+          "y": 253,
+          "zIndex": 6,
+          "widthName": 60,
+          "widthComment": 68,
+          "color": ""
+        },
+        "meta": {
+          "updateAt": 1736921542493,
+          "createAt": 1736921523525
+        }
+      },
+      "hEmxCwkqcz3JnMb2zxWIa": {
+        "id": "hEmxCwkqcz3JnMb2zxWIa",
+        "name": "MenuItem",
+        "comment": "하위 아이템",
+        "columnIds": [],
+        "seqColumnIds": [],
+        "ui": {
+          "x": 71,
+          "y": 350,
+          "zIndex": 15,
+          "widthName": 60,
+          "widthComment": 60,
+          "color": ""
+        },
+        "meta": {
+          "updateAt": 1736921572421,
+          "createAt": 1736921544703
+        }
+      },
+      "3mHiqpoUYAPk2UV136huw": {
+        "id": "3mHiqpoUYAPk2UV136huw",
+        "name": "",
+        "comment": "",
+        "columnIds": [],
+        "seqColumnIds": [],
+        "ui": {
+          "x": 73,
+          "y": 454,
+          "zIndex": 21,
+          "widthName": 60,
+          "widthComment": 60,
+          "color": ""
+        },
+        "meta": {
+          "updateAt": 1736921578089,
+          "createAt": 1736921573481
+        }
+      }
+    },
+    "tableColumnEntities": {},
+    "relationshipEntities": {},
+    "indexEntities": {},
+    "indexColumnEntities": {},
+    "memoEntities": {}
+  },
+  "lww": {
+    "1YLCzm7kAa-BEMQHDIP83": [
+      "tableEntities",
+      1736921500783,
+      -1,
+      {
+        "name": 1736921512132
+      }
+    ],
+    "3CQbEMLfGzmrVGQDcndcY": [
+      "tableEntities",
+      1736921516293,
+      1736921522715,
+      {}
+    ],
+    "EzNQuqxqfsMLgwAXq4J6Z": [
+      "tableEntities",
+      1736921523524,
+      -1,
+      {
+        "name": 1736921528840,
+        "comment": 1736921542491
+      }
+    ],
+    "hEmxCwkqcz3JnMb2zxWIa": [
+      "tableEntities",
+      1736921544702,
+      -1,
+      {
+        "name": 1736921550637,
+        "comment": 1736921557625
+      }
+    ],
+    "3mHiqpoUYAPk2UV136huw": [
+      "tableEntities",
+      1736921573481,
+      -1,
+      {}
+    ]
+  }
+}
