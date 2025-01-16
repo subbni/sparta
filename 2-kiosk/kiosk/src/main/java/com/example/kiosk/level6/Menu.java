@@ -1,6 +1,8 @@
 package com.example.kiosk.level6;
 
 import java.util.List;
+import java.util.stream.IntStream;
+
 public class Menu {
     private final String category;
     private final List<MenuItem> menuItems;
@@ -10,12 +12,10 @@ public class Menu {
         this.menuItems = menuItems;
     }
 
-    // List에 들어있는 MenuItem을 순차적으로 보여주는 함수
+    // Lambda & Stream 사용
     public void printMenuItems() {
-        for(int i=0; i<menuItems.size(); i++) {
-            System.out.print(i+1 + ". ");
-            System.out.println(menuItems.get(i));
-        }
+        IntStream.range(0,menuItems.size())
+                .forEach(idx -> System.out.printf("%d. %s",idx+1,menuItems.get(idx)));
     }
 
     public String getCategory() {
