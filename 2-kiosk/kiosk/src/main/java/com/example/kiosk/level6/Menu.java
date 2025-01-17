@@ -15,7 +15,7 @@ public class Menu {
     // Lambda & Stream 사용
     public void printMenuItems() {
         IntStream.range(0,menuItems.size())
-                .forEach(idx -> System.out.printf("%d. %s",idx+1,menuItems.get(idx)));
+                .forEach(idx -> System.out.printf("%d. %s\n",idx+1,menuItems.get(idx)));
     }
 
     public String getCategory() {
