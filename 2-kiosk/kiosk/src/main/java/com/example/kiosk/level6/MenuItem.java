@@ -28,4 +28,19 @@ public class MenuItem {
     public String toString() {
         return String.format("%-18s | W %.1f | %s",name,price,description);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof MenuItem item) {
+            return item.getName().equals(this.name)
+                    && item.getPrice()==this.price
+                    && item.getDescription().equals(this.description);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
 }

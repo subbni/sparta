@@ -1,82 +1,90 @@
 package com.example.kiosk.level6.service;
 
+import com.example.kiosk.level6.Cart;
 import com.example.kiosk.level6.MenuItem;
-import com.example.kiosk.level6.Order;
 
 import java.util.*;
 
 
-// 장바구니 추가 / 삭제 담당
-public class CartService {
-    // <아이템 이름, 주문 내용>
-    private Map<String, Order> cart = new HashMap<>();
-    private List<String> options = new ArrayList<>();
+/**
+ * 장바구니와 관련된 로직 처리
+ * 장바구니 추가 / 제거 / 조회
+ */
 
-    public CartService() {
-        options.add("Orders       | 장바구니를 확인 후 주문합니다.");
-        options.add("Cancel       | 진행중인 주문을 취소합니다.");
+public class CartService {
+    private final Cart cart = new Cart();
+
+    // 장바구니에 추가
+    public void processAddCartLogic(MenuItem menuItem) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println(menuItem);
+        System.out.println("위 메뉴를 장바구니에 추가하시겠습니까?");
+        System.out.println("1. 확인        2. 취소");
+
+        while (true) {
+            String inputStr = sc.nextLine();
+            if("1".equals(inputStr)) {
+                cart.add(menuItem);
+                System.out.println();
+                System.out.println(menuItem.getName()+" 이(가) 장바구니에 추가되었습니다.");
+                return;
+            } else if ("2".equals(inputStr)) {
+                return;
+            } else {
+                System.out.println("정해진 번호를 입력해주세요.");
+            }
+        }
     }
 
-    public void processRemoveItem() {
+    // 장바구니에서  제거
+    public void processRemoveLogic() {
         Scanner sc = new Scanner(System.in);
         while(true) {
-            System.out.print("\n어떤 메뉴를 빼시겠습니까? 메뉴명을 입력해주세요. (cancel : 취소)\n");
+            if(cart.isEmpty()) {
+                System.out.print("\n장바구니가 비었습니다. 메인 화면으로 돌아갑니다.\n");
+                return;
+            }
+
+            System.out.print("\n[ Orders ]\n");
+            printCartItems();
+            System.out.print("\n어떤 메뉴를 빼시겠습니까? 메뉴명을 입력해주세요. (cancel : 메뉴판으로 돌아가기 / all : 전부 빼기)\n");
+
             String inputStr =  sc.nextLine();
             if("cancel".equals(inputStr)) {
                 return;
+            }else if("all".equals(inputStr)) {
+                cart.reset();
+                continue;
             }
 
-            if(removeItemByNameWithStream(inputStr)) {
-                System.out.println("메뉴가 삭제되었습니다.");
-                return;
-            } else {
-                System.out.println("메뉴가 존재하지 않습니다. 다시 입력해주세요.");
+            try {
+                System.out.printf("\n%s 이(가) 장바구니에서 제거되었습니다.\n",removeItemByName(inputStr).getName());
+            } catch(Exception e) {
+                System.out.println(e.getMessage());
             }
         }
     }
 
-    private boolean removeItemByNameWithStream(String inputName) {
-        return cart.keySet().stream()
-                .filter(name -> name.equalsIgnoreCase(inputName))
+    private MenuItem removeItemByName(String inputName) {
+        MenuItem selectedItem = cart.getMenuItemsList().stream()
+                .filter((menuItem -> menuItem.getName().equalsIgnoreCase(inputName)))
                 .findFirst()
-                .map(name -> {
-                    cart.remove(name);
-                    return true;
-                })
-                .orElse(false);
+                .orElseThrow(()-> {throw new IllegalArgumentException("메뉴가 존재하지 않습니다. 다시 입력해주세요.");});
+        cart.remove(selectedItem);
+        return selectedItem;
     }
 
-    public void addItem(MenuItem menuItem) {
-        if(cart.containsKey(menuItem.getName())) {
-            cart.get(menuItem.getName()).addQuantity();
-        } else {
-            cart.put(menuItem.getName(), new Order(menuItem,1));
-        }
+    public void printCartItems() {
+        System.out.print(cart);
     }
 
     public boolean isCartEmpty() {
         return cart.isEmpty();
     }
 
-    public void printOrders() {
-        cart.values().forEach(order -> {
-            System.out.printf("%s [%d개]\n",order.getItem(),order.getQuantity());
-        });
-    }
+    public void resetCart() { cart.reset(); }
 
     public double getTotalPrice() {
-        return cart.values().stream().mapToDouble(o->o.getQuantity()*o.getItem().getPrice()).sum();
-    }
-
-    public void resetCart() {
-        cart.clear();
-    }
-
-    public String getOption(int index) {
-        return options.get(index);
-    }
-
-    public int getSizeOfOptions() {
-        return options.size();
+        return cart.getTotalPrice();
     }
 }
