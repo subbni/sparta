@@ -4,6 +4,11 @@ import com.example.kiosk.level6.constant.DiscountGroup;
 
 import java.util.Scanner;
 
+/**
+ * 주문, 결제와 관련된 로직 처리
+ * 주문 내용 조회 / 할인 결정 / 결제
+ */
+
 public class OrderService {
     private final CartService cartService;
 
@@ -11,41 +16,36 @@ public class OrderService {
        this.cartService = cartService;
     }
 
-    public void processOrder() {
+    // 주문 로직
+    public void processOrderLogic() {
         Scanner sc = new Scanner(System.in);
         while(true) {
-            System.out.print("\n아래와 같이 주문 하시겠습니까?\n\n");
-            System.out.print("[ Orders ]\n");
-            cartService.printOrders();
-            System.out.print("\n[ Total ]\n");
-            System.out.printf("W %.1f\n\n",cartService.getTotalPrice());
-            System.out.println("1. 주문      2. 주문 빼기      3. 메뉴판 ");
+            printCartItemsAndTotalPrice();
+            System.out.println("1. 주문      2. 메뉴판");
 
             String inputStr = sc.nextLine();
-            if("1".equals(inputStr)) { // 주문 처리
-                DiscountGroup discountGroup = selectDiscountGroup();
-                double discountedPrice = cartService.getTotalPrice() * (1-discountGroup.getDiscountRate());
-                System.out.printf("주문이 완료되었습니다. 금액은 W %.1f 입니다.\n",discountedPrice);
-                cartService.resetCart();
+            if("1".equals(inputStr)) {
+                processOrder();
                 return;
-            } else if("2".equals(inputStr)) { // 주문 빼기
-                cartService.processRemoveItem();
-                if(cartService.isCartEmpty()) {
-                    System.out.print("\n장바구니가 비었습니다. 메인 화면으로 돌아갑니다.\n");
-                    return;
-                }
-            } else if("3".equals(inputStr)) { // 메뉴판으로 돌아가기
+            } else if("2".equals(inputStr)) {
                 return;
+            } else {
+                System.out.println("정해진 번호를 입력해주세요.");
             }
         }
     }
 
-    private DiscountGroup selectDiscountGroup() {
+    private void processOrder() {
+        DiscountGroup discountGroup = processAndGetDiscountGroup();
+        double discountedPrice = getDiscountedPrice(discountGroup, cartService.getTotalPrice());
+        cartService.resetCart();
+        System.out.printf("주문이 완료되었습니다. 금액은 W %.1f 입니다.\n",discountedPrice);
+    }
+
+    // 할인 그룹 결정 후 반환
+    private DiscountGroup processAndGetDiscountGroup() {
         Scanner sc = new Scanner(System.in);
-        System.out.print("\n할인 정보를 입력해주세요.\n");
-        for(DiscountGroup group : DiscountGroup.values()) {
-            System.out.printf("%d. %s : %.0f%%\n",group.getId(),group.getKoreanName(),group.getDiscountRate()*100);
-        }
+        printDiscountGroup();
 
         while(true) {
             try {
@@ -63,4 +63,22 @@ public class OrderService {
         }
     }
 
+    private void printCartItemsAndTotalPrice() {
+        System.out.print("\n아래와 같이 주문 하시겠습니까?\n\n");
+        System.out.print("[ Orders ]\n");
+        cartService.printCartItems();
+        System.out.print("\n[ Total ]\n");
+        System.out.printf("W %.1f\n\n",cartService.getTotalPrice());
+    }
+
+    private void printDiscountGroup() {
+        System.out.print("\n할인 정보를 입력해주세요.\n");
+        for(DiscountGroup group : DiscountGroup.values()) {
+            System.out.printf("%d. %s : %.0f%%\n",group.getId(),group.getKoreanName(),group.getDiscountRate()*100);
+        }
+    }
+
+    private double getDiscountedPrice(DiscountGroup discountGroup, double price) {
+        return price * (1-discountGroup.getDiscountRate());
+    }
 }
