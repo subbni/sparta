@@ -13,14 +13,14 @@ public class OrderService {
 
     public void processOrder() {
         Scanner sc = new Scanner(System.in);
-        System.out.print("아래와 같이 주문 하시겠습니까?\n\n");
-        System.out.print("[ Orders ]\n");
-        cartService.printOrders();
-        System.out.print("\n[ Total ]\n");
-        System.out.printf("W %.1f\n\n",cartService.getTotalPrice());
-        System.out.println("1. 주문      2. 메뉴판");
-
         while(true) {
+            System.out.print("\n아래와 같이 주문 하시겠습니까?\n\n");
+            System.out.print("[ Orders ]\n");
+            cartService.printOrders();
+            System.out.print("\n[ Total ]\n");
+            System.out.printf("W %.1f\n\n",cartService.getTotalPrice());
+            System.out.println("1. 주문      2. 주문 빼기      3. 메뉴판 ");
+
             String inputStr = sc.nextLine();
             if("1".equals(inputStr)) { // 주문 처리
                 DiscountGroup discountGroup = selectDiscountGroup();
@@ -28,7 +28,13 @@ public class OrderService {
                 System.out.printf("주문이 완료되었습니다. 금액은 W %.1f 입니다.\n",discountedPrice);
                 cartService.resetCart();
                 return;
-            } else if ("2".equals(inputStr)) { // 메뉴판으로 돌아가기
+            } else if("2".equals(inputStr)) { // 주문 빼기
+                cartService.processRemoveItem();
+                if(cartService.isCartEmpty()) {
+                    System.out.print("\n장바구니가 비었습니다. 메인 화면으로 돌아갑니다.\n");
+                    return;
+                }
+            } else if("3".equals(inputStr)) { // 메뉴판으로 돌아가기
                 return;
             }
         }

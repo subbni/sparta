@@ -3,10 +3,7 @@ package com.example.kiosk.level6.service;
 import com.example.kiosk.level6.MenuItem;
 import com.example.kiosk.level6.Order;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 // 장바구니 추가 / 삭제 담당
@@ -18,6 +15,35 @@ public class CartService {
     public CartService() {
         options.add("Orders       | 장바구니를 확인 후 주문합니다.");
         options.add("Cancel       | 진행중인 주문을 취소합니다.");
+    }
+
+    public void processRemoveItem() {
+        Scanner sc = new Scanner(System.in);
+        while(true) {
+            System.out.print("\n어떤 메뉴를 빼시겠습니까? 메뉴명을 입력해주세요. (cancel : 취소)\n");
+            String inputStr =  sc.nextLine();
+            if("cancel".equals(inputStr)) {
+                return;
+            }
+
+            if(removeItemByNameWithStream(inputStr)) {
+                System.out.println("메뉴가 삭제되었습니다.");
+                return;
+            } else {
+                System.out.println("메뉴가 존재하지 않습니다. 다시 입력해주세요.");
+            }
+        }
+    }
+
+    private boolean removeItemByNameWithStream(String inputName) {
+        return cart.keySet().stream()
+                .filter(name -> name.equalsIgnoreCase(inputName))
+                .findFirst()
+                .map(name -> {
+                    cart.remove(name);
+                    return true;
+                })
+                .orElse(false);
     }
 
     public void addItem(MenuItem menuItem) {
