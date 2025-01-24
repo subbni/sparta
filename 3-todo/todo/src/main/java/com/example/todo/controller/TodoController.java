@@ -27,6 +27,13 @@ public class TodoController {
         return new ResponseEntity<>(todoService.saveTodo(requestDto), HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<TodoResponse> findById(
+            @PathVariable Long id
+    ) {
+        return new ResponseEntity<>(todoService.findById(id),HttpStatus.OK);
+    }
+
     @GetMapping
     public ResponseEntity<List<TodoResponse>> findAll(
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate updatedAt,

@@ -32,6 +32,11 @@ public class TodoService {
                 .build();
     }
 
+    public TodoResponse findById(Long id) {
+        Todo todo = todoRepository.findByIdOrElseThrow(id);
+        return TodoResponse.fromEntity(todo);
+    }
+
     public List<TodoResponse> findAll(LocalDate updatedAt, String authorName) {
         return todoRepository.findAllByUpdatedAtAndAuthorName(updatedAt, authorName)
                 .stream()

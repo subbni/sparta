@@ -2,10 +2,12 @@ package com.example.todo.repository;
 
 import com.example.todo.entity.Todo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.sql.DataSource;
 import java.sql.Date;
@@ -41,6 +43,18 @@ public class JdbcTemplateTodoRepository implements TodoRepository {
 
         return key.longValue();
     }
+
+    @Override
+    public Todo findByIdOrElseThrow(Long id) {
+        List<Todo> result = jdbcTemplate.query(
+                "select * from todo where id = ?",
+                todoRowMapper(),
+                id);
+        return result.stream().findAny()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+    }
+
 
     @Override
     public List<Todo> findAllByUpdatedAtAndAuthorName(LocalDate updateAt, String authorName) {
