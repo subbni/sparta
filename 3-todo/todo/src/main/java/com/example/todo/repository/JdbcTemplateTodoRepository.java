@@ -46,6 +46,7 @@ public class JdbcTemplateTodoRepository implements TodoRepository {
     public List<Todo> findAllByUpdatedAtAndAuthorName(LocalDate updateAt, String authorName) {
         StringBuilder sql = new StringBuilder("select * from todo ");
         if(updateAt==null && authorName==null) {
+            sql.append("order by updated_at desc");
             return jdbcTemplate.query(sql.toString(),todoRowMapper());
         }
 
@@ -64,6 +65,8 @@ public class JdbcTemplateTodoRepository implements TodoRepository {
             sql.append("author_name = ? ");
             params.add(authorName);
         }
+        sql.append("order by updated_at desc");
+
         log.info("sql : {}",sql);
         log.info("params = {}",params);
         return jdbcTemplate.query(sql.toString(), todoRowMapper(), params.toArray());
