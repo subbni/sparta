@@ -1,8 +1,6 @@
 package com.example.todo.controller;
 
-import com.example.todo.controller.dto.TodoCreateRequest;
-import com.example.todo.controller.dto.TodoCreateResponse;
-import com.example.todo.controller.dto.TodoResponse;
+import com.example.todo.controller.dto.*;
 import com.example.todo.service.TodoService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -10,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -21,25 +18,40 @@ public class TodoController {
         this.todoService = todoService;
     }
     @PostMapping
-    public ResponseEntity<TodoCreateResponse> createTodo(
-            @RequestBody TodoCreateRequest requestDto
+    public ResponseEntity<TodoCreateResponse> create(
+            @RequestBody TodoCreateRequest request
             ) {
-        return new ResponseEntity<>(todoService.saveTodo(requestDto), HttpStatus.OK);
+        return new ResponseEntity<>(todoService.save(request), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<TodoResponse> findById(
-            @PathVariable Long id
+    @GetMapping("/{todoId}")
+    public ResponseEntity<TodoResponse> getTodoById(
+            @PathVariable Long todoId
     ) {
-        return new ResponseEntity<>(todoService.findById(id),HttpStatus.OK);
+        return new ResponseEntity<>(todoService.findById(todoId),HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<TodoResponse>> findAll(
+    public ResponseEntity<List<TodoResponse>> getTodos(
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate updatedAt,
             @RequestParam(required = false) String authorName
             ) {
         return new ResponseEntity<>(todoService.findAll(updatedAt, authorName), HttpStatus.OK);
     }
 
+    @PutMapping("/{todoId}")
+    public ResponseEntity<TodoUpdateResponse> update(
+            @PathVariable Long todoId,
+            @RequestBody TodoUpdateRequest request
+            ) {
+        return new ResponseEntity<>(todoService.update(todoId,request),HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> delete (
+            @RequestBody TodoDeleteRequest request
+            ) {
+        todoService.delete(request);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

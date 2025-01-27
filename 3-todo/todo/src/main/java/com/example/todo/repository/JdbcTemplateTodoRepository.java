@@ -1,6 +1,9 @@
 package com.example.todo.repository;
 
+import com.example.todo.controller.dto.TodoUpdateRequest;
 import com.example.todo.entity.Todo;
+import com.example.todo.exception.ExceptionType;
+import com.example.todo.exception.TodoException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -51,8 +54,7 @@ public class JdbcTemplateTodoRepository implements TodoRepository {
                 todoRowMapper(),
                 id);
         return result.stream().findAny()
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-
+                .orElseThrow(() -> new TodoException(ExceptionType.RESOURCE_NOT_FOUND));
     }
 
 
@@ -84,6 +86,22 @@ public class JdbcTemplateTodoRepository implements TodoRepository {
         log.info("sql : {}",sql);
         log.info("params = {}",params);
         return jdbcTemplate.query(sql.toString(), todoRowMapper(), params.toArray());
+    }
+
+    @Override
+    public void update(TodoUpdateRequest updateRequest) {
+        StringBuilder sql = new StringBuilder("update todo ");
+        sql.append("set author_name = ?, content = ? ");
+        sql.append("where id = ?");
+        jdbcTemplate.update(sql.toString(),
+                updateRequest.getAuthorName(),
+                updateRequest.getContent(),
+                updateRequest.getTodoId());
+    }
+
+    public void deleteById(Long id) {
+        String sql = "delete from todo where id = ?";
+        jdbcTemplate.update(sql, id);
     }
 
     private RowMapper<Todo> todoRowMapper() {
