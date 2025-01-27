@@ -1,10 +1,9 @@
-package com.example.todo.repository;
+package com.example.todo.todo.repository;
 
-import com.example.todo.controller.dto.TodoUpdateRequest;
-import com.example.todo.entity.Todo;
+import com.example.todo.todo.dto.TodoUpdateRequest;
+import com.example.todo.todo.domain.Todo;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 

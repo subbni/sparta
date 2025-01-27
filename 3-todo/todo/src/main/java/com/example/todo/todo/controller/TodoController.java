@@ -1,7 +1,7 @@
-package com.example.todo.controller;
+package com.example.todo.todo.controller;
 
-import com.example.todo.controller.dto.*;
-import com.example.todo.service.TodoService;
+import com.example.todo.todo.service.TodoService;
+import com.example.todo.todo.dto.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

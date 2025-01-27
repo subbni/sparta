@@ -1,16 +1,14 @@
-package com.example.todo.repository;
+package com.example.todo.todo.repository;
 
-import com.example.todo.controller.dto.TodoUpdateRequest;
-import com.example.todo.entity.Todo;
+import com.example.todo.todo.dto.TodoUpdateRequest;
+import com.example.todo.todo.domain.Todo;
 import com.example.todo.exception.ExceptionType;
 import com.example.todo.exception.TodoException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.sql.DataSource;
 import java.sql.Date;

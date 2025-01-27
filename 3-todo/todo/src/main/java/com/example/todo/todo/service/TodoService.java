@@ -1,10 +1,10 @@
-package com.example.todo.service;
+package com.example.todo.todo.service;
 
-import com.example.todo.controller.dto.*;
-import com.example.todo.entity.Todo;
+import com.example.todo.todo.domain.Todo;
 import com.example.todo.exception.ExceptionType;
 import com.example.todo.exception.TodoException;
-import com.example.todo.repository.TodoRepository;
+import com.example.todo.todo.repository.TodoRepository;
+import com.example.todo.todo.dto.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

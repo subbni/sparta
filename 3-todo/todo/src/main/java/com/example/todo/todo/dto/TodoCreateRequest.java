@@ -1,4 +1,4 @@
-package com.example.todo.controller.dto;
+package com.example.todo.todo.dto;
 
 import lombok.Getter;
 
