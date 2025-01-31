@@ -13,17 +13,19 @@ import java.time.LocalDateTime;
 public class TodoResponse {
     private Long id;
     private String content;
-    private String authorName;
+    private Long userId;
+    private String userName;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public static TodoResponse fromEntity(Todo todo) {
+    public static TodoResponse from(TodoDetail todoDetail) {
         return TodoResponse.builder()
-                .id(todo.getId())
-                .content(todo.getContent())
-                .authorName(todo.getAuthorName())
-                .createdAt(todo.getCreatedAt())
-                .updatedAt(todo.getUpdatedAt())
+                .id(todoDetail.getId())
+                .content(todoDetail.getContent())
+                .userId(todoDetail.getUserId())
+                .userName(todoDetail.getUserName())
+                .createdAt(todoDetail.getCreatedAt())
+                .updatedAt(todoDetail.getUpdatedAt())
                 .build();
     }
 }

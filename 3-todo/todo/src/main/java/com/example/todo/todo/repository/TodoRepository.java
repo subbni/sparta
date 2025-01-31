@@ -1,16 +1,20 @@
 package com.example.todo.todo.repository;
 
+import com.example.todo.todo.dto.TodoDetail;
 import com.example.todo.todo.dto.TodoUpdateRequest;
 import com.example.todo.todo.domain.Todo;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 
 public interface TodoRepository {
     Long saveAndReturnKey(Todo todo);
-    Todo findByIdOrElseThrow(Long id);
-    List<Todo> findAllByUpdatedAtAndAuthorName(LocalDate updateAt, String authorName);
+    Optional<TodoDetail> findById(Long id);
+    List<TodoDetail> findAll();
+    List<TodoDetail> findAllByUserId(Long userId);
+//    List<Todo> findAllByUpdatedAtAndAuthorName(LocalDate updateAt, String authorName);
     void update(TodoUpdateRequest updateRequest);
-    void deleteById(Long id);
+    void updateContent(Long id, String content);
+    void delete(Long id);
 }

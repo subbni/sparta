@@ -5,8 +5,8 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class TodoCreateResponse {
+public class TodoSimpleResponse {
     private Long id;
     private String content;
-    private String authorName;
+    private String userName;
 }
