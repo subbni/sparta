@@ -1,7 +1,7 @@
-package com.example.todo.controller;
+package com.example.todo.todo.controller;
 
-import com.example.todo.controller.dto.*;
-import com.example.todo.service.TodoService;
+import com.example.todo.todo.service.TodoService;
+import com.example.todo.todo.dto.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ public class TodoController {
         this.todoService = todoService;
     }
     @PostMapping
-    public ResponseEntity<TodoCreateResponse> create(
+    public ResponseEntity<TodoSimpleResponse> create(
             @RequestBody TodoCreateRequest request
             ) {
         return new ResponseEntity<>(todoService.save(request), HttpStatus.OK);
@@ -31,16 +31,23 @@ public class TodoController {
         return new ResponseEntity<>(todoService.findById(todoId),HttpStatus.OK);
     }
 
+//    @GetMapping
+//    public ResponseEntity<List<TodoResponse>> getTodos(
+//            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate updatedAt,
+//            @RequestParam(required = false) String authorName
+//            ) {
+//        return new ResponseEntity<>(todoService.findAll(updatedAt, authorName), HttpStatus.OK);
+//    }
+
     @GetMapping
-    public ResponseEntity<List<TodoResponse>> getTodos(
-            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate updatedAt,
-            @RequestParam(required = false) String authorName
-            ) {
-        return new ResponseEntity<>(todoService.findAll(updatedAt, authorName), HttpStatus.OK);
+    public ResponseEntity<List<TodoResponse>> getTodosByUserId(
+        @RequestParam(required = false) Long userId
+    ) {
+        return new ResponseEntity<>(todoService.findAllByUserId(userId),HttpStatus.OK);
     }
 
     @PutMapping("/{todoId}")
-    public ResponseEntity<TodoUpdateResponse> update(
+    public ResponseEntity<TodoSimpleResponse> update(
             @PathVariable Long todoId,
             @RequestBody TodoUpdateRequest request
             ) {

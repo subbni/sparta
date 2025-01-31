@@ -1,4 +1,4 @@
-package com.example.todo.entity;
+package com.example.todo.todo.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,20 +6,15 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-@Getter
 @Builder
 @AllArgsConstructor
-public class Todo {
+@Getter
+public class TodoDetail {
     private Long id;
     private String content;
-    private String authorName;
     private String password;
+    private Long userId;
+    private String userName;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-    public Todo(String content, String authorName, String password) {
-        this.content = content;
-        this.authorName = authorName;
-        this.password = password;
-    }
 }

@@ -1,10 +1,11 @@
-package com.example.todo.controller.dto;
+package com.example.todo.todo.dto;
 
 import lombok.Getter;
 
 @Getter
 public class TodoCreateRequest {
     private String content;
-    private String authorName;
+    private String userName;
+    private String email;
     private String password;
 }
