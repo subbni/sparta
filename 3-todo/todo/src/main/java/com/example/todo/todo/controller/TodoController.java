@@ -2,6 +2,7 @@ package com.example.todo.todo.controller;
 
 import com.example.todo.todo.service.TodoService;
 import com.example.todo.todo.dto.*;
+import jakarta.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class TodoController {
     }
     @PostMapping
     public ResponseEntity<TodoSimpleResponse> create(
-            @RequestBody TodoCreateRequest request
+            @RequestBody @Valid TodoCreateRequest request
             ) {
         return new ResponseEntity<>(todoService.save(request), HttpStatus.OK);
     }
@@ -49,14 +50,14 @@ public class TodoController {
     @PutMapping("/{todoId}")
     public ResponseEntity<TodoSimpleResponse> update(
             @PathVariable Long todoId,
-            @RequestBody TodoUpdateRequest request
+            @RequestBody @Valid TodoUpdateRequest request
             ) {
         return new ResponseEntity<>(todoService.update(todoId,request),HttpStatus.OK);
     }
 
     @DeleteMapping
     public ResponseEntity<Void> delete (
-            @RequestBody TodoDeleteRequest request
+            @RequestBody @Valid TodoDeleteRequest request
             ) {
         todoService.delete(request);
         return new ResponseEntity<>(HttpStatus.OK);
