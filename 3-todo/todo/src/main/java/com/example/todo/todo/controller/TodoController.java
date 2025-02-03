@@ -32,19 +32,12 @@ public class TodoController {
         return new ResponseEntity<>(todoService.findById(todoId),HttpStatus.OK);
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<TodoResponse>> getTodos(
-//            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate updatedAt,
-//            @RequestParam(required = false) String authorName
-//            ) {
-//        return new ResponseEntity<>(todoService.findAll(updatedAt, authorName), HttpStatus.OK);
-//    }
-
     @GetMapping
-    public ResponseEntity<List<TodoResponse>> getTodosByUserId(
-        @RequestParam(required = false) Long userId
+    public ResponseEntity<List<TodoResponse>> getTodos(
+        @RequestParam(required = false) Long userId,
+        @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate updatedAt
     ) {
-        return new ResponseEntity<>(todoService.findAllByUserId(userId),HttpStatus.OK);
+        return new ResponseEntity<>(todoService.findAll(userId, updatedAt),HttpStatus.OK);
     }
 
     @PutMapping("/{todoId}")
