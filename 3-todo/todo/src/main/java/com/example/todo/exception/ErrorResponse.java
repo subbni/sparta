@@ -4,12 +4,12 @@ import lombok.Getter;
 
 @Getter
 public class ErrorResponse {
-    private ExceptionType exceptionType;
-    private String message;
+    private ExceptionType type;
+    private String detail;
 
-    public ErrorResponse(ExceptionType exceptionType, String message) {
-        this.exceptionType = exceptionType;
-        this.message = message;
+    public ErrorResponse(ExceptionType type, String detail) {
+        this.type = type;
+        this.detail = detail;
     }
 
     public static ErrorResponse from(TodoException e) {
