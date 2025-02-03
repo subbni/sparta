@@ -1,5 +1,6 @@
 package com.example.todo.todo.service;
 
+import com.example.todo.global.pagination.Paging;
 import com.example.todo.todo.domain.Todo;
 import com.example.todo.exception.ExceptionType;
 import com.example.todo.exception.TodoException;
@@ -10,6 +11,7 @@ import com.example.todo.user.dto.UserResponse;
 import com.example.todo.user.service.UserService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -24,9 +26,9 @@ public class TodoService {
 
     public TodoSimpleResponse save(TodoCreateRequest request) {
         UserResponse userResponse = userService.findOrSave(UserCreateRequest.builder()
-                        .name(request.getUserName())
-                        .email(request.getEmail())
-                        .password(request.getPassword())
+                .name(request.getUserName())
+                .email(request.getEmail())
+                .password(request.getPassword())
                 .build());
 
         Todo todo = Todo.builder()
@@ -48,21 +50,17 @@ public class TodoService {
                 .orElseThrow(() -> new TodoException(ExceptionType.RESOURCE_NOT_FOUND)));
     }
 
-    /** Lv.1 구현
-    public List<TodoResponse> findAll(LocalDate updatedAt, String authorName) {
-        return todoRepository.findAllByUpdatedAtAndAuthorName(updatedAt, authorName)
+    public Paging.Response findAll(Long userId, LocalDate updatedAt, Paging.Request pagingRequest) {
+        List<TodoResponse> pagingData =  todoRepository.findAllByUserIdAndUpdatedAt(userId, updatedAt, pagingRequest)
                 .stream()
-                .map(TodoResponse::fromEntity)
+                .map(TodoResponse::from)
                 .toList();
-    }
-     **/
 
-
-    public List<TodoResponse> findAllByUserId(Long userId) {
-        if(userId == null) {
-            return todoRepository.findAll().stream().map(TodoResponse::from).toList();
-        }
-        return todoRepository.findAllByUserId(userId).stream().map(TodoResponse::from).toList();
+        return Paging.Response.builder()
+                .data(pagingData.isEmpty() ? new Object[0] : pagingData.toArray())
+                .size(pagingRequest.getSize())
+                .page(pagingRequest.getPage())
+                .build();
     }
 
     public TodoSimpleResponse update(Long todoId, TodoUpdateRequest request) {
@@ -70,8 +68,8 @@ public class TodoService {
                 .orElseThrow(() -> new TodoException(ExceptionType.RESOURCE_NOT_FOUND));
         checkPasswordMatch(request.getPassword(),todoDetail.getPassword());
 
-        todoRepository.update(request);
-        userService.updateName(todoDetail.getUserId(),request.getUserName()); // TODO : userId가 유효한 지 검증 필요
+        todoRepository.updateContent(request.getTodoId(), request.getContent());
+        userService.updateName(todoDetail.getUserId(),request.getUserName());
         return TodoSimpleResponse.builder()
                 .id(request.getTodoId())
                 .content(request.getContent())

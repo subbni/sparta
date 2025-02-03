@@ -1,5 +1,6 @@
 package com.example.todo.todo.controller;
 
+import com.example.todo.global.pagination.Paging;
 import com.example.todo.todo.service.TodoService;
 import com.example.todo.todo.dto.*;
 import jakarta.validation.Valid;
@@ -9,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/todo")
@@ -32,19 +32,14 @@ public class TodoController {
         return new ResponseEntity<>(todoService.findById(todoId),HttpStatus.OK);
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<TodoResponse>> getTodos(
-//            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate updatedAt,
-//            @RequestParam(required = false) String authorName
-//            ) {
-//        return new ResponseEntity<>(todoService.findAll(updatedAt, authorName), HttpStatus.OK);
-//    }
-
     @GetMapping
-    public ResponseEntity<List<TodoResponse>> getTodosByUserId(
-        @RequestParam(required = false) Long userId
+    public ResponseEntity<Paging.Response> getTodos(
+        @RequestParam(required = false) Long userId,
+        @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate updatedAt,
+        @RequestParam(required = false, defaultValue = "10") int size,
+        @RequestParam(required = false, defaultValue = "0") int page
     ) {
-        return new ResponseEntity<>(todoService.findAllByUserId(userId),HttpStatus.OK);
+        return new ResponseEntity<>(todoService.findAll(userId, updatedAt, new Paging.Request(size,page)),HttpStatus.OK);
     }
 
     @PutMapping("/{todoId}")
