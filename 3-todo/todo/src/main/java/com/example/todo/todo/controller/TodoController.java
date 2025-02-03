@@ -1,5 +1,6 @@
 package com.example.todo.todo.controller;
 
+import com.example.todo.global.pagination.Paging;
 import com.example.todo.todo.service.TodoService;
 import com.example.todo.todo.dto.*;
 import jakarta.validation.Valid;
@@ -9,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/todo")
@@ -33,11 +33,13 @@ public class TodoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TodoResponse>> getTodos(
+    public ResponseEntity<Paging.Response> getTodos(
         @RequestParam(required = false) Long userId,
-        @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate updatedAt
+        @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate updatedAt,
+        @RequestParam(required = false, defaultValue = "10") int size,
+        @RequestParam(required = false, defaultValue = "0") int page
     ) {
-        return new ResponseEntity<>(todoService.findAll(userId, updatedAt),HttpStatus.OK);
+        return new ResponseEntity<>(todoService.findAll(userId, updatedAt, new Paging.Request(size,page)),HttpStatus.OK);
     }
 
     @PutMapping("/{todoId}")

@@ -1,7 +1,7 @@
 package com.example.todo.todo.repository;
 
+import com.example.todo.global.pagination.Paging;
 import com.example.todo.todo.dto.TodoDetail;
-import com.example.todo.todo.dto.TodoUpdateRequest;
 import com.example.todo.todo.domain.Todo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -21,6 +22,7 @@ public class JdbcTemplateTodoRepository implements TodoRepository {
 
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert insertActor;
+
     public JdbcTemplateTodoRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.insertActor = new SimpleJdbcInsert(dataSource)
@@ -52,49 +54,42 @@ public class JdbcTemplateTodoRepository implements TodoRepository {
     }
 
     @Override
-    public List<TodoDetail> findAll() {
-        String sql = "select * from todos join users u on todos.user_id = u.id";
-        return jdbcTemplate.query(sql, todoDatailRowMapper());
+    public List<TodoDetail> findAllByUserIdAndUpdatedAt(
+            Long userId, LocalDate updatedAt, Paging.Request pagingRequest
+    ) {
+        StringBuilder sql = new StringBuilder("select * from todos join users u on todos.user_id = u.id ");
+        List<Object> params = new ArrayList<>();
+
+        if(userId == null && updatedAt == null) {
+            sql.append("order by todos.updated_at desc ");
+            sql.append("limit ? offset ? ");
+            params.add(pagingRequest.getSize());
+            params.add(pagingRequest.getSize() * pagingRequest.getPage()); // offset
+            return jdbcTemplate.query(sql.toString(), todoDatailRowMapper(), params.toArray());
+        }
+
+        sql.append("where ");
+        boolean andFlag = false;
+        if(userId!=null) {
+            sql.append("user_id = ? ");
+            params.add(userId);
+            andFlag = true;
+        }
+        if(updatedAt!=null) {
+            if(andFlag) {
+                sql.append("and ");
+            }
+            sql.append("DATE(todos.updated_at) = ? ");
+            params.add(Date.valueOf(updatedAt));
+        }
+
+        sql.append("order by todos.updated_at desc ");
+        sql.append("limit ? offset ? ");
+        params.add(pagingRequest.getSize());
+        params.add(pagingRequest.getSize() * pagingRequest.getPage()); // offset
+        return jdbcTemplate.query(sql.toString(), todoDatailRowMapper(), params.toArray());
     }
 
-     @Override
-     public List<TodoDetail> findAllByUserIdAndUpdatedAt(Long userId, LocalDate updatedAt) {
-         StringBuilder sql = new StringBuilder("select * from todos join users u on todos.user_id = u.id ");
-         if(userId == null && updatedAt == null) {
-         sql.append("order by todos.updated_at desc");
-         return jdbcTemplate.query(sql.toString(),todoDatailRowMapper());
-         }
-
-         sql.append("where ");
-         boolean andFlag = false;
-         List<Object> params = new ArrayList<>();
-         if(userId!=null) {
-             sql.append("user_id = ? ");
-             params.add(userId);
-             andFlag = true;
-         }
-         if(updatedAt!=null) {
-             if(andFlag) {
-                 sql.append("and ");
-             }
-             sql.append("DATE(todos.updated_at) = ? ");
-             params.add(java.sql.Date.valueOf(updatedAt));
-         }
-
-         sql.append("order by todos.updated_at desc");
-
-         log.info("sql : {}",sql);
-         log.info("params = {}",params);
-         return jdbcTemplate.query(sql.toString(), todoDatailRowMapper(), params.toArray());
-     }
-
-    @Override
-    public void update(TodoUpdateRequest updateRequest) {
-        String sql = "update todos set content = ? where id = ?";
-        jdbcTemplate.update(sql,
-                updateRequest.getContent(),
-                updateRequest.getTodoId());
-    }
 
     @Override
     public void updateContent(Long id, String content) {
