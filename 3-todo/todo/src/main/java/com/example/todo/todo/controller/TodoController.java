@@ -50,7 +50,7 @@ public class TodoController {
         return new ResponseEntity<>(todoService.update(todoId,request),HttpStatus.OK);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{todoId}")
     public ResponseEntity<Void> delete (
             @RequestBody @Valid TodoDeleteRequest request
             ) {
