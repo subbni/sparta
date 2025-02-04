@@ -1,11 +1,14 @@
 # CH 3 일정 관리 앱 과제
-## 프로젝트 정보
+## 🗒️ 프로젝트 정보
 ### 개발 기간
 `2025.01.23` ~ `2025.02.03`
 ### 개발 인원
 1인 (개인)
 ### 설명
+SpringBoot와 JDBC를 사용하여 기본적인 CRUD API를 구현합니다.
 
+이와 함께 `Global Exception Handler`, `Paging` 객체를 구현하였으며
+Request Body의 유효성 검증을 수행하였습니다.
 ### 사용 기술
 ![](https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=OpenJDK&logoColor=white")
 ![](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
@@ -15,7 +18,46 @@
 ![](https://img.shields.io/badge/intellijidea-000000?style=for-the-badge&logo=intellijidea&logoColor=white")
 
 ### 파일 구조
-
+```
+todo/src/main/java/com/example/todo
+├── TodoApplication.java
+├── exception
+│   ├── ErrorResponse.java
+│   ├── ExceptionType.java
+│   ├── TodoException.java
+│   └── TodoExceptionHandler.java
+├── global
+│   └── pagination
+│       └── Paging.java
+├── todo
+│   ├── controller
+│   │   └── TodoController.java
+│   ├── domain
+│   │   └── Todo.java
+│   ├── dto
+│   │   ├── TodoCreateRequest.java
+│   │   ├── TodoDeleteRequest.java
+│   │   ├── TodoDetail.java
+│   │   ├── TodoResponse.java
+│   │   ├── TodoSimpleResponse.java
+│   │   └── TodoUpdateRequest.java
+│   ├── repository
+│   │   ├── JdbcTemplateTodoRepository.java
+│   │   └── TodoRepository.java
+│   └── service
+│       └── TodoService.java
+└── user
+    ├── domain
+    │   └── User.java
+    ├── dto
+    │   ├── UserCreateRequest.java
+    │   └── UserResponse.java
+    ├── repository
+    │   ├── JdbcTemplateUserRepository.java
+    │   └── UserRepository.java
+    └── service
+        └── UserService.java
+```
 ---
 
 ## API 명세
@@ -303,3 +345,23 @@
 
 
 ## 🗒️ 구현 내용
+### 일정 생성 및 작성자 생성
+- 할일 내용, 작성자명, 이메일, 비밀번호, 작성/수정일을 저장합니다.
+- 해당 이메일로 등록된 작성자가 존재하지 않는다면 작성자를 등록합니다.
+- 비밀번호는 작성자의 비밀번호가 아닌, 각 할일에 대한 비밀번호입니다.
+### 전체 일정 조회
+- 다음 조건을 바탕으로 등록된 일정 목록을 조회합니다. 수정일 기준으로 내림차순 조회됩니다.
+  - 수정일(`updated_at`) (형식 : YYYY-MM-DD)
+  - 작성자 아이디(`user_id`)
+  - 페이지네이션 정보 (`size`:한 페이지 당 데이터 수(기본 10), `page`:현재 페이지 번호(기본 0))
+### 일정 수정
+- 일정의 내용, 일정을 작성한 사용자의 이름을 변경합니다.
+- 비밀번호를 함께 제출하여야 하며 비밀번호가 해당 일정의 비밀번호와 일치하여야 수정됩니다.
+- 변경된 사용자의 이름은 사용자가 작성한 모든 일정에 반영됩니다.
+### 일정 삭제
+- 해당 일정 id를 가진 일정을 삭제합니다.
+- 비밀번호를 함께 제출하여야 하며 비밀번호가 해당 일정의 비밀번호와 일치하여야 삭제됩니다.
+
+
+> 자세한 구현 내용은 [Issue #15](https://github.com/subbni/sparta/issues/15) 의 커밋들을 통해 확인할 수 있습니다.
+  
