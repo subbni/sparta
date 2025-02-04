@@ -95,8 +95,9 @@ public class JdbcTemplateTodoRepository implements TodoRepository {
     public void updateContent(Long id, String content) {
         String sql = "update todos set content = ? where id = ?";
         jdbcTemplate.update(sql,
-                id,
-                content);
+                content,
+                id
+        );
     }
 
     public void delete(Long id) {

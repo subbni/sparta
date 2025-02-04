@@ -2,16 +2,24 @@ package com.example.todo.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.List;
 
 @Slf4j
 @ControllerAdvice
-public class TodoExceptionHandler {
+public class TodoExceptionHandler extends ResponseEntityExceptionHandler {
+    public TodoExceptionHandler() {
+        super();
+    }
+
     @ExceptionHandler(TodoException.class)
     public ResponseEntity<ErrorResponse> handleTodoException(TodoException e) {
         log.debug("Todo Custom Exception [statusCode = {}, errorMessage = {}, cause = {}]",
@@ -20,10 +28,12 @@ public class TodoExceptionHandler {
                 .body(ErrorResponse.from(e));
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class) /* @Valid 검증 오류 */
-    public ResponseEntity<ErrorResponse> handleRequestValidationException(
+    @Override
+    public ResponseEntity<Object> handleMethodArgumentNotValid( /* @Valid 검증 오류 */
             MethodArgumentNotValidException e,
-            HttpServletRequest request
+            HttpHeaders headers,
+            HttpStatusCode status,
+            WebRequest request
     ) {
         ExceptionType exceptionType = ExceptionType.REQUEST_VALIDATION_FAILED;
 
@@ -32,7 +42,7 @@ public class TodoExceptionHandler {
                 .toList();
 
         log.debug("Validation Exception [uri = { }, errorMessage = {}, cause = {}]",
-                request.getRequestURI(), e.getMessage(), e.getCause());
+                request.getContextPath(), e.getMessage(), e.getCause());
         return ResponseEntity.status(exceptionType.getHttpStatus())
                 .body(new ErrorResponse(exceptionType, String.join(", ",errors)));
     }
