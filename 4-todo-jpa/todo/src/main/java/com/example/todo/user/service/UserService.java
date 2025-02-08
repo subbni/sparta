@@ -19,7 +19,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public CreateUserResponse create(CreateUserRequest request) {
+    public CreateUserResponse register(CreateUserRequest request) {
         checkDuplicateEmail(request.getEmail());
         User user = userRepository.save(
                 User.builder()
@@ -31,15 +31,16 @@ public class UserService {
         return CreateUserResponse.from(user);
     }
 
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(()-> {
+                    throw new CustomException(ExceptionType.EMAIL_NOT_EXIST);
+                });
+    }
+
     private void checkDuplicateEmail(String email) {
         if(userRepository.existsByEmail(email)) {
             throw new CustomException(ExceptionType.DUPLICATE_EMAIL);
-        }
-    }
-
-    private void checkPasswordMatch(String inputPassword, String storedPassword) {
-        if(!passwordEncoder.matches(inputPassword, storedPassword)) {
-            throw new CustomException(ExceptionType.PASSWORD_NOT_MATCH);
         }
     }
 }

@@ -19,10 +19,10 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/signup")
+    @PostMapping("/register")
     public ResponseEntity<CreateUserResponse> create(
             @Valid @RequestBody CreateUserRequest request
     ) {
-        return new ResponseEntity<>(userService.create(request), HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.register(request), HttpStatus.CREATED);
     }
 }
