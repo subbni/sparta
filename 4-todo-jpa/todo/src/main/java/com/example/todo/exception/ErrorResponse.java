@@ -1,4 +1,4 @@
-package com.example.todo.global.exception;
+package com.example.todo.exception;
 
 import lombok.Getter;
 
