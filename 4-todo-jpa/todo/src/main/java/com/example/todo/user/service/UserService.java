@@ -3,9 +3,12 @@ package com.example.todo.user.service;
 import com.example.todo.global.exception.CustomException;
 import com.example.todo.global.exception.ExceptionType;
 import com.example.todo.security.PasswordEncoder;
+import com.example.todo.user.domain.AccountStatus;
 import com.example.todo.user.domain.User;
 import com.example.todo.user.dto.CreateUserRequest;
 import com.example.todo.user.dto.CreateUserResponse;
+import com.example.todo.user.dto.UpdateUserRequest;
+import com.example.todo.user.dto.UserProfile;
 import com.example.todo.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,6 +32,25 @@ public class UserService {
                         .build()
         );
         return CreateUserResponse.from(user);
+    }
+
+    @Transactional(readOnly = true)
+    public UserProfile getUserProfile(Long userId) {
+        return UserProfile.from(getUserById(userId));
+    }
+
+    @Transactional
+    public UserProfile update(Long userId, UpdateUserRequest request) {
+        User user = getUserById(userId);
+        user.update(request.getName(), passwordEncoder.encode(request.getPassword()));
+        return UserProfile.from(user);
+    }
+
+    private User getUserById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> {
+                    throw new CustomException(ExceptionType.USER_NOT_FOUND);
+                });
     }
 
     public User getUserByEmail(String email) {

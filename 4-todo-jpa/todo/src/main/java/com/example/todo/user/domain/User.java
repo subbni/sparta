@@ -35,6 +35,11 @@ public class User extends BaseTimeEntity {
         this.accountStatus = AccountStatus.ACTIVE;
     }
 
+    public void update(String name, String password) {
+        this.name = name;
+        this.password = password;
+    }
+
     public void setAccountStatus(AccountStatus accountStatus) {
         this.accountStatus = accountStatus;
     }
