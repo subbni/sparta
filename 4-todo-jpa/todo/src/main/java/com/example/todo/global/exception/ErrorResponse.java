@@ -6,11 +6,11 @@ import lombok.Getter;
 public class ErrorResponse {
 
     private ExceptionType type;
-    private String detail;
+    private String message;
 
-    public ErrorResponse(ExceptionType type, String detail) {
+    public ErrorResponse(ExceptionType type, String message) {
         this.type = type;
-        this.detail = detail;
+        this.message = message;
     }
 
     public static ErrorResponse from(CustomException e) {
