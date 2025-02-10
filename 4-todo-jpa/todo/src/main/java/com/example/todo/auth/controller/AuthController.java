@@ -1,7 +1,7 @@
-package com.example.todo.user.controller;
+package com.example.todo.auth.controller;
 
-import com.example.todo.user.dto.LoginUserRequest;
-import com.example.todo.user.service.AuthService;
+import com.example.todo.auth.dto.LoginUserRequest;
+import com.example.todo.auth.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;

@@ -1,10 +1,11 @@
-package com.example.todo.user.service;
+package com.example.todo.auth.service;
 
-import com.example.todo.global.exception.CustomException;
-import com.example.todo.global.exception.ExceptionType;
-import com.example.todo.security.PasswordEncoder;
+import com.example.todo.exception.CustomException;
+import com.example.todo.exception.ExceptionType;
+import com.example.todo.auth.security.PasswordEncoder;
 import com.example.todo.user.domain.User;
-import com.example.todo.user.dto.LoginUserRequest;
+import com.example.todo.auth.dto.LoginUserRequest;
+import com.example.todo.user.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,4 +1,4 @@
-package com.example.todo.security;
+package com.example.todo.auth.security;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
