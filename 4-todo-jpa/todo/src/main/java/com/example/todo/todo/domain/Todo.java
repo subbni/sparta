@@ -6,11 +6,13 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLRestriction;
 
 @Entity
 @Table(name = "todos")
 @Getter
 @NoArgsConstructor
+@SQLRestriction("deleted_at is NULL")
 public class Todo extends BaseTimeEntity {
 
     @Id
