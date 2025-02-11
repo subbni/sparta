@@ -79,4 +79,8 @@ public class TodoService {
                     throw new CustomException(ExceptionType.TODO_NOT_FOUND);
                 });
     }
+
+    public void softDeleteByUserId(Long userId) {
+        todoRepository.softDeleteByUserId(userId);
+    }
 }

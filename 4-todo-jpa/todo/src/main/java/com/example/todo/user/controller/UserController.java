@@ -6,6 +6,7 @@ import com.example.todo.global.annotation.CurrentUserId;
 import com.example.todo.user.dto.CreateUserResponse;
 import com.example.todo.user.dto.UpdateUserRequest;
 import com.example.todo.user.dto.UserProfile;
+import com.example.todo.user.service.UserFacadeService;
 import com.example.todo.user.dto.CreateUserRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
+    private final UserFacadeService userService;
 
     @PostMapping("/register")
     public ResponseEntity<CreateUserResponse> register(
@@ -47,4 +48,16 @@ public class UserController {
         return new ResponseEntity<>(userService.update(userId, request), HttpStatus.OK);
     }
 
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Void> unregister(
+            @CurrentUserId Long currentUserId,
+            @PathVariable Long userId
+    ) {
+        if(!currentUserId.equals(userId)) {
+            throw new CustomException(ExceptionType.NO_PERMISSION_ACTION);
+        }
+
+        userService.unregister(userId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
