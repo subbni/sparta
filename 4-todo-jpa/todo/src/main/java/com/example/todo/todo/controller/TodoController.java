@@ -7,6 +7,9 @@ import com.example.todo.todo.dto.UpdateTodoRequest;
 import com.example.todo.todo.service.TodoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +34,14 @@ public class TodoController {
             @PathVariable Long todoId
     ) {
         return new ResponseEntity<>(todoService.getTodo(todoId), HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<TodoResponse>> getTodos(
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "10") int size
+    ) {
+        return new ResponseEntity<>(todoService.getTodos(PageRequest.of(page,size)), HttpStatus.OK);
     }
 
     @PutMapping("/{todoId}")

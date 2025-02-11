@@ -10,6 +10,7 @@ import com.example.todo.todo.repository.TodoRepository;
 import com.example.todo.user.domain.User;
 import com.example.todo.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +38,18 @@ public class TodoService {
     @Transactional(readOnly = true)
     public TodoResponse getTodo(Long todoId) {
         return TodoResponse.from(getTodoById(todoId));
+    }
+
+    @Transactional(readOnly = true)
+    public Page<TodoResponse> getTodos(Pageable pageable) {
+        PageRequest pageRequest = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                Sort.by("updatedAt").descending()
+        );
+
+        return todoRepository.findAll(pageRequest)
+                .map(TodoResponse::from);
     }
 
     @Transactional
