@@ -1,14 +1,21 @@
 package com.example.todo.config;
 
-import com.example.todo.security.filter.LoginCheckFilter;
-import jakarta.servlet.Filter;
+import com.example.todo.config.resolver.CurrentUserIdArgumentResolver;
+import com.example.todo.auth.filter.LoginCheckFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.List;
+
 @Configuration
+@RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
+
+    private final CurrentUserIdArgumentResolver currentUserIdArgumentResolver;
 
     @Bean
     public FilterRegistrationBean<LoginCheckFilter> loginCheckFilter() {
@@ -19,5 +26,10 @@ public class WebConfig implements WebMvcConfigurer {
         registrationBean.addUrlPatterns("/*");
 
         return registrationBean;
+    }
+
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(currentUserIdArgumentResolver);
     }
 }

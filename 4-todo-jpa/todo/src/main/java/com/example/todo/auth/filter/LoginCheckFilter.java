@@ -1,4 +1,4 @@
-package com.example.todo.security.filter;
+package com.example.todo.auth.filter;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;

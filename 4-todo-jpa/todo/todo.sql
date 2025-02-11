@@ -5,6 +5,7 @@ CREATE TABLE users (
        password VARCHAR(255) NOT NULL,
        created_at  DATETIME NOT NULL,
        updated_at  DATETIME NOT NULL,
+       deleted_at DATETIME DEFAULT NULL,
        account_status VARCHAR(20) NOT NULL
 );
 
@@ -15,6 +16,7 @@ CREATE TABLE todos (
        content   VARCHAR(200),
        created_at  DATETIME NOT NULL,
        updated_at  DATETIME NOT NULL,
+       deleted_at DATETIME DEFAULT NULL,
        FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
@@ -25,6 +27,7 @@ CREATE TABLE comments (
        content   VARCHAR(255) NOT NULL,
        created_at  DATETIME NOT NULL,
        updated_at  DATETIME NOT NULL,
+       deleted_at DATETIME DEFAULT NULL,
        FOREIGN KEY (user_id) REFERENCES users(id),
        FOREIGN KEY (todo_id) REFERENCES todos(id)
 );

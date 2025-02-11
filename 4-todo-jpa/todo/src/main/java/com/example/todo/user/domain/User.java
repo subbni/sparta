@@ -5,11 +5,13 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLRestriction;
 
 @Entity
 @Table(name = "users")
 @Getter
 @NoArgsConstructor
+@SQLRestriction("deleted_at is NULL")
 public class User extends BaseTimeEntity {
 
     @Id
@@ -33,6 +35,11 @@ public class User extends BaseTimeEntity {
         this.email = email;
         this.password = password;
         this.accountStatus = AccountStatus.ACTIVE;
+    }
+
+    public void update(String name, String password) {
+        this.name = name;
+        this.password = password;
     }
 
     public void setAccountStatus(AccountStatus accountStatus) {

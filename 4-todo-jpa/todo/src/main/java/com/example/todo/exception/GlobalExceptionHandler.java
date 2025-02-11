@@ -1,4 +1,4 @@
-package com.example.todo.global.exception;
+package com.example.todo.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
