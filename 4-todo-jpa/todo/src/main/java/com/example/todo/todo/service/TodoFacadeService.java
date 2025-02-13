@@ -3,6 +3,7 @@ package com.example.todo.todo.service;
 import com.example.todo.comment.service.CommentService;
 import com.example.todo.todo.dto.CreateTodoRequest;
 import com.example.todo.todo.dto.TodoResponse;
+import com.example.todo.todo.dto.TodoWithCommentCountResponse;
 import com.example.todo.todo.dto.UpdateTodoRequest;
 import com.example.todo.user.domain.User;
 import com.example.todo.user.service.UserService;
@@ -34,7 +35,7 @@ public class TodoFacadeService {
     }
 
     @Transactional(readOnly = true)
-    public Page<TodoResponse> getTodos(Pageable pageable) {
+    public Page<TodoWithCommentCountResponse> getTodos(Pageable pageable) {
         PageRequest pageRequest = PageRequest.of(
                 pageable.getPageNumber(),
                 pageable.getPageSize(),

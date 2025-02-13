@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Builder
-public class TodoResponse {
+public class TodoWithCommentCountResponse {
 
     private Long id;
     private String title;
@@ -17,9 +17,10 @@ public class TodoResponse {
     private LocalDateTime updatedAt;
     private Long userId;
     private String userName;
+    private int cntOfComments;
 
-    public static TodoResponse from(Todo todo) {
-        return TodoResponse.builder()
+    public static TodoWithCommentCountResponse from(Todo todo) {
+        return TodoWithCommentCountResponse.builder()
                 .id(todo.getId())
                 .title(todo.getTitle())
                 .content(todo.getContent())
@@ -27,6 +28,7 @@ public class TodoResponse {
                 .updatedAt(todo.getUpdatedAt())
                 .userId(todo.getUser().getId())
                 .userName(todo.getUser().getName())
+                .cntOfComments(todo.getComments().size())
                 .build();
     }
 }

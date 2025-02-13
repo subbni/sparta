@@ -5,6 +5,7 @@ import com.example.todo.exception.ExceptionType;
 import com.example.todo.todo.domain.Todo;
 import com.example.todo.todo.dto.CreateTodoRequest;
 import com.example.todo.todo.dto.TodoResponse;
+import com.example.todo.todo.dto.TodoWithCommentCountResponse;
 import com.example.todo.todo.dto.UpdateTodoRequest;
 import com.example.todo.todo.repository.TodoRepository;
 import com.example.todo.user.domain.User;
@@ -34,9 +35,9 @@ public class TodoService {
         return TodoResponse.from(getTodoById(todoId));
     }
 
-    public Page<TodoResponse> getTodos(Pageable pageable) {
+    public Page<TodoWithCommentCountResponse> getTodos(Pageable pageable) {
         return todoRepository.findAll(pageable)
-                .map(TodoResponse::from);
+                .map(TodoWithCommentCountResponse::from);
     }
 
     public TodoResponse update(Long userId, Long todoId, UpdateTodoRequest request) {
