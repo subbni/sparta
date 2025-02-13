@@ -17,6 +17,7 @@ public class TodoResponse {
     private LocalDateTime updatedAt;
     private Long userId;
     private String userName;
+    private int cntOfComments;
 
     public static TodoResponse from(Todo todo) {
         return TodoResponse.builder()
@@ -27,6 +28,7 @@ public class TodoResponse {
                 .updatedAt(todo.getUpdatedAt())
                 .userId(todo.getUser().getId())
                 .userName(todo.getUser().getName())
+                .cntOfComments(todo.getComments().size())
                 .build();
     }
 }

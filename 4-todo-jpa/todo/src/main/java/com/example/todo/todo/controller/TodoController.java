@@ -4,6 +4,7 @@ import com.example.todo.global.annotation.CurrentUserId;
 import com.example.todo.todo.dto.CreateTodoRequest;
 import com.example.todo.todo.dto.TodoResponse;
 import com.example.todo.todo.dto.UpdateTodoRequest;
+import com.example.todo.todo.service.TodoFacadeService;
 import com.example.todo.todo.service.TodoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class TodoController {
 
-    private final TodoService todoService;
+    private final TodoFacadeService todoService;
 
     @PostMapping
     public ResponseEntity<TodoResponse> create(
