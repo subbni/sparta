@@ -2,7 +2,7 @@ package com.example.todo.user.service;
 
 import com.example.todo.exception.CustomException;
 import com.example.todo.exception.ExceptionType;
-import com.example.todo.auth.security.PasswordEncoder;
+import com.example.todo.config.security.PasswordEncoder;
 import com.example.todo.user.domain.AccountStatus;
 import com.example.todo.user.domain.User;
 import com.example.todo.user.dto.CreateUserRequest;

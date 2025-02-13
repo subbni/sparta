@@ -1,7 +1,7 @@
 package com.example.todo.config;
 
 import com.example.todo.config.resolver.CurrentUserIdArgumentResolver;
-import com.example.todo.auth.filter.LoginCheckFilter;
+import com.example.todo.config.filter.LoginCheckFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
