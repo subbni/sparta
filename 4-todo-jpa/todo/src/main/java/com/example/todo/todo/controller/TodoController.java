@@ -3,6 +3,7 @@ package com.example.todo.todo.controller;
 import com.example.todo.global.annotation.CurrentUserId;
 import com.example.todo.todo.dto.CreateTodoRequest;
 import com.example.todo.todo.dto.TodoResponse;
+import com.example.todo.todo.dto.TodoWithCommentCountResponse;
 import com.example.todo.todo.dto.UpdateTodoRequest;
 import com.example.todo.todo.service.TodoFacadeService;
 import com.example.todo.todo.service.TodoService;
@@ -38,7 +39,7 @@ public class TodoController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<TodoResponse>> getTodos(
+    public ResponseEntity<Page<TodoWithCommentCountResponse>> getTodos(
             @RequestParam(required = false, defaultValue = "0") int page,
             @RequestParam(required = false, defaultValue = "10") int size
     ) {
