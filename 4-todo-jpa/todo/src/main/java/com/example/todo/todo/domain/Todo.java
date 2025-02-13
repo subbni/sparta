@@ -4,6 +4,7 @@ import com.example.todo.comment.domain.Comment;
 import com.example.todo.global.BaseTimeEntity;
 import com.example.todo.user.domain.User;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.List;
 @Entity
 @Table(name = "todos")
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SQLRestriction("deleted_at is NULL")
 public class Todo extends BaseTimeEntity {
 
