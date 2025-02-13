@@ -3,11 +3,10 @@ package com.example.todo.comment.controller;
 import com.example.todo.comment.dto.CommentResponse;
 import com.example.todo.comment.dto.CreateCommentRequest;
 import com.example.todo.comment.dto.UpdateCommentRequest;
-import com.example.todo.comment.service.CommentService;
+import com.example.todo.comment.service.CommentFacadeService;
 import com.example.todo.global.annotation.CurrentUserId;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class CommentController {
 
-    private final CommentService commentService;
+    private final CommentFacadeService commentService;
 
     @PostMapping
     public ResponseEntity<CommentResponse> create(

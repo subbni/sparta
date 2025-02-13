@@ -8,25 +8,17 @@ import com.example.todo.comment.repository.CommentRepository;
 import com.example.todo.exception.CustomException;
 import com.example.todo.exception.ExceptionType;
 import com.example.todo.todo.domain.Todo;
-import com.example.todo.todo.service.TodoService;
 import com.example.todo.user.domain.User;
-import com.example.todo.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class CommentService {
 
     private final CommentRepository commentRepository;
-    private final UserService userService;
-    private final TodoService todoService;
 
-    @Transactional
-    public CommentResponse create(Long userId, CreateCommentRequest request) {
-        User user = userService.getUserById(userId);
-        Todo todo = todoService.getTodoById(request.getTodoId());
+    public CommentResponse create(User user, Todo todo, CreateCommentRequest request) {
         Comment comment = commentRepository.save(
                 Comment.builder()
                         .content(request.getContent())
@@ -38,12 +30,10 @@ public class CommentService {
         return CommentResponse.from(comment);
     }
 
-    @Transactional(readOnly = true)
     public CommentResponse getComment(Long commentId) {
         return CommentResponse.from(getCommentById(commentId));
     }
 
-    @Transactional
     public CommentResponse update(Long userId, Long commentId, UpdateCommentRequest request) {
         Comment comment = getCommentById(commentId);
         if(!comment.getUser().getId().equals(userId)) {
@@ -54,7 +44,6 @@ public class CommentService {
         return CommentResponse.from(comment);
     }
 
-    @Transactional
     public void delete(Long userId, Long commentId) {
         Comment comment = getCommentById(commentId);
         if(!comment.getUser().getId().equals(userId)) {
