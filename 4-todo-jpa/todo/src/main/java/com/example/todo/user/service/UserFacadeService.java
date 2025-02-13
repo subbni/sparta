@@ -1,5 +1,6 @@
 package com.example.todo.user.service;
 
+import com.example.todo.comment.service.CommentService;
 import com.example.todo.todo.service.TodoService;
 import com.example.todo.user.dto.CreateUserRequest;
 import com.example.todo.user.dto.CreateUserResponse;
@@ -15,6 +16,7 @@ public class UserFacadeService {
 
     private final UserService userService;
     private final TodoService todoService;
+    private final CommentService commentService;
 
     @Transactional
     public CreateUserResponse register(CreateUserRequest request) {
@@ -35,5 +37,6 @@ public class UserFacadeService {
     public void unregister(Long userId) {
         userService.unregister(userId);
         todoService.softDeleteByUserId(userId);
+        commentService.softDeleteByUserId(userId);
     }
 }
