@@ -15,9 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CommentFacadeService {
 
-    private CommentService commentService;
-    private UserService userService;
-    private TodoService todoService;
+    private final CommentService commentService;
+    private final UserService userService;
+    private final TodoService todoService;
 
     @Transactional
     public CommentResponse create(Long userId, CreateCommentRequest request) {
